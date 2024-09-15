@@ -2,11 +2,11 @@ import { redis } from "../lib/redis.js";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
-const generateTokens = async (userId) => {
-    const accessToken =await jwt.sign({id:userId,},process.env.ACCESS_TOKEN_SECRET,{
+const generateTokens = (userId) => {
+    const accessToken = jwt.sign({id:userId},process.env.ACCESS_TOKEN_SECRET,{
         expiresIn:"15m"
     })
-    const refreshToken = jwt.sign({id:userId,},process.env.REFRESH_TOKEN_SECRET,{
+    const refreshToken = jwt.sign({id:userId},process.env.REFRESH_TOKEN_SECRET,{
         expiresIn: "7d"
     })
 
@@ -19,6 +19,9 @@ const storeRefreshToken = async (userId,refreshToken) => {
 
 
 const setCookies = ( res,accessToken,refreshToken ) => {
+    // console.log(accessToken);
+    // console.log(refreshToken);
+    
     res.cookie("access_token", accessToken, 
         { 
             httpOnly: true, 
@@ -50,10 +53,9 @@ const signup = async (req, res) => {
         const newUser = new User({ email, password, name });
         await newUser.save();
 
-        // Generate Tokens
+        // Generate Tokens        
         const {accessToken,refreshToken} = generateTokens(newUser._id);
         await storeRefreshToken(newUser._id, refreshToken);
-
 
         setCookies(res,accessToken,refreshToken)
         
@@ -95,8 +97,11 @@ const login = async (req, res) => {
 const logout = async (req, res) => {
     try {
         const refresh_token = req.cookies["refresh_token"];
+
         if(refresh_token){
             const decoded = jwt.verify(refresh_token,process.env.REFRESH_TOKEN_SECRET);
+            console.log(decoded);
+            
             await redis.del(`refresh_token:${decoded.id}`);
         }
         res.clearCookie("access_token");
@@ -112,20 +117,25 @@ const logout = async (req, res) => {
 
 
 const resfreshToken = async (req,res) => {
-    const refreshToken = req.cookies["refresh_token"];
+    const refreshToken = req.cookies["refresh_token"];    
     if(!refreshToken){
         return res.status(401).json({message:"Not authorized, no refresh token"});
     }
     const decodedToken = jwt.verify(refreshToken,process.env.REFRESH_TOKEN_SECRET);
-    const storedToken = await redis.get(`refresh_token_${decodedToken.id}`);
+    
+    const storedToken = await redis.get(`refresh_token:${decodedToken.id}`);
+    
+    // console.log(refreshToken,"+", storedToken);
 
-    if(decodedToken != storedToken){
+    if(refreshToken != storedToken){
         return res.status(401).json({message:"Not authorized, Invalid Token Details"});
     }
 
     const accessToken = jwt.sign({id:decodedToken.id},process.env.ACCESS_TOKEN_SECRET,{
         expiresIn:"15m"
     })
+
+    // console.log("New Token :- "+accessToken);    
 
     res.cookie("access_token",accessToken,{
         httpOnly: true,
@@ -142,4 +152,4 @@ export {
     login,
     logout,
     resfreshToken
-};
+}
