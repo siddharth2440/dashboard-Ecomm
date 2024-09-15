@@ -4,6 +4,7 @@ import authRoute from "./routes/auth.route.js";
 import dbConnection from "./db/dbConnection.js";
 import morgan from "morgan";
 import cors from "cors";
+import productRoute from "./routes/product.route.js";
 import cookieParser from "cookie-parser";
 
 config();
@@ -23,7 +24,7 @@ app.use(cookieParser());
 // }))
 
 app.use('/api/auth',authRoute);
-// app.use('api/auth',authRoute);
+app.use('api/product',productRoute);
 // app.use('api/auth',authRoute);
 // app.use('api/auth',authRoute);
 // app.use('api/auth',authRoute);
