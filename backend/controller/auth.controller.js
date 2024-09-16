@@ -147,9 +147,14 @@ const resfreshToken = async (req,res) => {
     return res.json({message:"Refreshed Token"});
 }
 
+const getProfile = async (req, res) => {
+    return res.json({message:"Prifile Details",user:req.user});
+}
+
 export {
     signup,
     login,
     logout,
-    resfreshToken
+    resfreshToken,
+    getProfile
 }
