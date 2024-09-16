@@ -6,6 +6,8 @@ import morgan from "morgan";
 import cors from "cors";
 import productRoute from "./routes/product.route.js";
 import cookieParser from "cookie-parser";
+import cartRoute from "./routes/cart.route.js";
+import couponRoute from "./routes/coupons.route.js";
 
 config();
 const app = express();
@@ -24,9 +26,9 @@ app.use(cookieParser());
 // }))
 
 app.use('/api/auth',authRoute);
-app.use('api/product',productRoute);
-// app.use('api/auth',authRoute);
-// app.use('api/auth',authRoute);
+app.use('/api/product',productRoute);
+app.use('/api/cart',cartRoute);
+app.use('/api/coupon',couponRoute);
 // app.use('api/auth',authRoute);
 
 app.listen(PORT,()=>{

@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { adminRoute, protectedRoute } from "../middleware/auth.middleware";
-import { createProduct, getAllProducts, getFeaturedProducts, getProductsByategory, getRecommendedProduct, toggleFeaturedProduct } from "../controller/product.controller";
+import { adminRoute, protectedRoute } from "../middleware/auth.middleware.js";
+import { createProduct, getAllProducts, getFeaturedProducts, getProductsByategory, getRecommendedProduct, toggleFeaturedProduct } from "../controller/product.controller.js";
 const router = Router();
 
 router.get("/",protectedRoute,adminRoute,getAllProducts);
