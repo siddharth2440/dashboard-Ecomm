@@ -29,7 +29,7 @@ app.use('/api/auth',authRoute);
 app.use('/api/product',productRoute);
 app.use('/api/cart',cartRoute);
 app.use('/api/coupon',couponRoute);
-// app.use('api/auth',authRoute);
+// app.use('/api/payment',paymentRoute);
 
 app.listen(PORT,()=>{
     dbConnection();

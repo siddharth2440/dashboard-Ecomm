@@ -29,6 +29,11 @@ const orderSchema = new Schema({
         type: Number,
         required: true,
         min: 0
+    },
+    stripeSessionId:{
+        type: String,
+        unique: true,
+        required:true
     }
 },{timestamps:true});
 
