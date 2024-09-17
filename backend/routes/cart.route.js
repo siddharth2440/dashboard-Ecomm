@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { protectedRoute } from "../middleware/auth.middleware";
-import { addToCart, getCartProducts, removeAllFromCart, updateQuantity } from "../controller/cart.controller";
+import { protectedRoute } from "../middleware/auth.middleware.js";
+import { addToCart, getCartProducts, removeAllFromCart, updateQuantity } from "../controller/cart.controller.js";
 const router = Router();
 
 router.get("/",protectedRoute,getCartProducts);

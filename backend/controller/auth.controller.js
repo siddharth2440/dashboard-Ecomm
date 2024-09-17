@@ -42,8 +42,12 @@ const setCookies = ( res,accessToken,refreshToken ) => {
 }
 
 const signup = async (req, res) => {
-    // console.log("Hits")
+    // console.log("Hits");
+    // console.log(req.body);
+    
     try {
+        // console.log(req.body);
+        
         const { email,password,name } = req.body;
         const userExists = await User.findOne({ email });
         if (userExists) {
@@ -59,7 +63,7 @@ const signup = async (req, res) => {
 
         setCookies(res,accessToken,refreshToken)
         
-        return res.status(201).json({ message: "User created successfully" });
+        return res.status(201).json({ message: "User created successfully",user: newUser});
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({

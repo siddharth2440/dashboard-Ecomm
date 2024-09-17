@@ -1,13 +1,38 @@
-import { Loader, UserPlus } from 'lucide-react'
-import React from 'react'
+import { ArrowRightFromLine, Loader, UserPlus } from 'lucide-react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
+import { useUserStore } from '../stores/useUserStore.js';
 
 const Signup = () => {
-    const loading = false;
+    const loading = useUserStore((state)=>state.loading);
+    const signup = useUserStore((state)=>state.signup);
+
+    const [formData,setFormData] = useState({
+        name:"",
+        email:"",
+        password:"",
+        confirmPassword:""
+    })
+
+    const changeHandler = (e) => {
+        const {name,value} = e.target;
+        setFormData( (prev) => {
+            return ( {
+                ...prev,[name]:value
+            } )
+        } )
+    }
 
     const submitHandler = (e) => {
         e.preventDefault();
         // Your form submission logic goes here
-        console.log('Form submitted');
+        setFormData({
+            name:"",
+            email:"",
+            password:"",
+            confirmPassword:""
+        })
+        signup(formData);
     }
   return (
     <div className='w-full m-auto overflow-hidden'>
@@ -22,22 +47,22 @@ const Signup = () => {
                     {/* fullname  */}
                     <div className='flex items-start justify-start gap-2 mt-4 flex-col w-[100%]'>
                         <label htmlFor="name">Full Name</label>
-                        <input type="text" placeholder={`  John Doe `}  className='w-[100%] py-1 px-3 bg-gray-700 border border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm '/>
+                        <input onChange={changeHandler} value={formData.name} name='name' type="text" placeholder={`  John Doe `}  className='w-[100%] py-1 px-3 bg-gray-700 border border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm '/>
                     </div>
                     {/* email  */}
                     <div className='flex items-start justify-start gap-2 mt-4 flex-col w-[100%]'>
                         <label htmlFor="email">Email Address</label>
-                        <input type="text" placeholder={`  you@gmail.com `}  className='w-[100%] py-1 px-3 bg-gray-700 border border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm '/>
+                        <input type="text" onChange={changeHandler} value={formData.email} name='email' placeholder={`  you@gmail.com `}  className='w-[100%] py-1 px-3 bg-gray-700 border border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm '/>
                     </div>
                     {/* password  */}
                     <div className='flex items-start justify-start gap-2 mt-4 flex-col w-[100%]'>
                         <label htmlFor="password">Password</label>
-                        <input type="password" placeholder={`  *********** `}  className='w-[100%] py-1 px-3 bg-gray-700 border border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm '/>
+                        <input type="password" onChange={changeHandler} name='password' value={formData.password} placeholder={`  *********** `}  className='w-[100%] py-1 px-3 bg-gray-700 border border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm '/>
                     </div>
                     {/* confirmPass  */}
                     <div className='flex items-start justify-start gap-2 mt-4 flex-col w-[100%]'>
                         <label htmlFor="c-password">Confirm Password</label>
-                        <input type="password" placeholder={`  *********** `}  className='w-[100%] py-1 px-3 bg-gray-700 border border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm '/>
+                        <input type="password" onChange={changeHandler} value={formData.confirmPassword} name='confirmPassword' placeholder={`  *********** `}  className='w-[100%] py-1 px-3 bg-gray-700 border border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm '/>
                     </div>
 
                     {/* button  */}
@@ -57,6 +82,12 @@ const Signup = () => {
                             )
                         }
                     </button>
+
+                    <div className='w-[100%] my-4'>
+                        <h4 className='text-center w-[100%]'>
+                            Member? <Link className='ml-2 text-green-700 font-[600]' to={"/login"}>Login here <ArrowRightFromLine className='inline-block' size={15}/> </Link>
+                        </h4>
+                    </div>
 
                 </form>
 

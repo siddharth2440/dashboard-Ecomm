@@ -1,5 +1,6 @@
-import { Loader, UserPlus } from 'lucide-react'
+import { Loader, UserPlus,ArrowRightFromLine } from 'lucide-react'
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const loading = false;
@@ -46,7 +47,12 @@ const Login = () => {
                             )
                         }
                     </button>
-
+                    
+                    <div className='w-[100%] my-4'>
+                        <h4 className='text-center w-[100%]'>
+                            Not a  member? <Link className='ml-2 text-green-700 font-[600]' to={"/signup"}>Sign up now <ArrowRightFromLine className='inline-block' size={15}/> </Link>
+                        </h4>
+                    </div>
                 </form>
 
             </div>
