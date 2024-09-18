@@ -1,11 +1,14 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Homepage from './pages/Homepage.jsx'
 import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
 import Navbar from './components/Navbar.jsx'
+import { useUserStore } from './stores/useUserStore.js'
 
 function App() {
+
+  const user = useUserStore((state) => state.user )
 
   return (
 
@@ -22,8 +25,8 @@ function App() {
           <Navbar/>
           <Routes>
             <Route path='/' element={ <Homepage/> } ></Route>
-            <Route path='/login' element={ <Login/> } ></Route>
-            <Route path='/signup' element={ <Signup/> } ></Route>
+            <Route path='/login' element={ !user ? <Login/> : <Navigate to={"/"} /> } ></Route>
+            <Route path='/signup' element={ !user ? <Signup/> : <Navigate to={"/"} /> } ></Route>
           </Routes>
       </div>
     </div>

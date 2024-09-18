@@ -40,7 +40,22 @@ export const useUserStore = create( persist( (set,get) => ({
             set( { loading : false } );
             return toast.error("Invalid Credentials");
         }
-    }
+    },
+    //logout
+    logout: async () => {
+        set({loading : true});
+
+        try {
+            const res = axiosInstance.get('/auth/logout');
+            set({loading : false});
+            set({checkingAuth : false,user:null});
+            return toast.success(res.data.message);
+        } catch (error) {
+            return toast.error(error.message);
+        }
+    },
+    //checkingAuth,
+    
 }),{
     name: "userStore",
     // partialize: (state) =>
