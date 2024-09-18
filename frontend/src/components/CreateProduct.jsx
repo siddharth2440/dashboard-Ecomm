@@ -1,13 +1,14 @@
 import { UploadIcon } from 'lucide-react';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
+import { useProductStore } from '../stores/useProductStore.js';
 
 const CreateProduct = () => {
     const categories = ["jeans", "t-shirts", "shoes", "glasses", "jackets", "suits", "bags"];
     const [product,setProduct] = useState({
         name:"",description:"",price:"",category:"",image:""
     })
-
+    const createProduct = useProductStore((state)=>state.createProduct);
     const changeProductHandler = (e) => {
         const {value,name} = e.target;
         setProduct(prev=>{
@@ -36,9 +37,10 @@ const CreateProduct = () => {
             reader.readAsDataURL(file);
         }
     }
-    const submit_form_create_procducts = (e) => {
+    const submit_form_create_procducts =async (e) => {
         e.preventDefault();
         // call your api here
+        await createProduct(product)
         console.log(product);
         setProduct({name:"",description:"",price:"",category:"",image:""})        
         toast.success('Product Created Successfully');

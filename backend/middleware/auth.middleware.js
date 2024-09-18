@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-
+import jwt from "jsonwebtoken";
 export const protectedRoute = async (req,res,next) => {
     try {
         const accessToken = req.cookies["access_token"];
@@ -21,9 +21,12 @@ export const protectedRoute = async (req,res,next) => {
 }
 
 
-export const adminRoute = (req,res) => {
-    if(req.user && req.user.role==="admin"){
+export const adminRoute = (req,res,next) => {
+    console.log(req.user);
+
+    if(req.user && req.user.role.toString()==="admin"){
         next();
-    }
+    }else{
     return res.status(403).json({message:"Access Denied. Only admin can access this route."});
+    }
 }
