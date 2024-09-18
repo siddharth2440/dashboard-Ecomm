@@ -1,12 +1,35 @@
 import { Loader, UserPlus,ArrowRightFromLine } from 'lucide-react'
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { useUserStore } from '../stores/useUserStore.js';
+import toast from 'react-hot-toast';
 
 const Login = () => {
-    const loading = false;
+    const loading = useUserStore((state) => state.loading );
+
+    const [loginData,setLoginData] = useState({ email :"", password :""});
+    const login = useUserStore((state) => state.login )
+    
+
+    const changeLoginHandler = (e) => {
+        const {name,value} = e.target;
+        setLoginData((prev) => ({
+            ...prev,[name]:value
+        }) );
+    }
+
+    const navigate = useNavigate();
 
     const submitHandler = (e) => {
         e.preventDefault();
+        // console.log(loginData);
+        const _login = login(loginData);
+        if(!_login){
+            return toast.error("error in Login")
+        }
+        navigate("/")
+        setLoginData({ email :"", password :""})
+        return;
     }
   return (
     <div className='w-full m-auto overflow-hidden'>
@@ -21,17 +44,17 @@ const Login = () => {
                     {/* email  */}
                     <div className='flex items-start justify-start gap-2 mt-4 flex-col w-[100%]'>
                         <label htmlFor="email">Email Address</label>
-                        <input type="text" placeholder={`  you@gmail.com `}  className='w-[100%] py-1 px-3 bg-gray-700 border border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm '/>
+                        <input type="text" name='email' value={loginData.email} onChange={changeLoginHandler} placeholder={`  you@gmail.com `}  className='w-[100%] py-1 px-3 bg-gray-700 border border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm '/>
                     </div>
                     {/* password  */}
                     <div className='flex items-start justify-start gap-2 mt-4 flex-col w-[100%]'>
                         <label htmlFor="password">Password</label>
-                        <input type="password" placeholder={`  *********** `}  className='w-[100%] py-1 px-3 bg-gray-700 border border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm '/>
+                        <input type="password" value={loginData.password} name='password' onChange={changeLoginHandler} placeholder={`  *********** `}  className='w-[100%] py-1 px-3 bg-gray-700 border border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm '/>
                     </div>
                     
 
                     {/* button  */}
-                    <button type='submit' disabled={loading} className='flex items-center justify-normal bg-green-600 mx-auto mt-5 px-4 py-2 rounded-md disabled:bg-green-800 disabled:cursor-not-allowed'>
+                    <button type='submit' disabled={loading} className='flex items-center justify-normal bg-green-600 mx-auto mt-5 px-4 py-2 rounded-md disabled:bg-green-900 disabled:cursor-not-allowed'>
                         {
                             loading ?
                             (
@@ -42,7 +65,7 @@ const Login = () => {
                             ) : (
                                 <>
 									<UserPlus className='mr-2 h-5 w-5' aria-hidden='true' />
-									Sign up
+									Login
 								</>
                             )
                         }

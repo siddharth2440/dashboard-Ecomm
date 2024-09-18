@@ -76,20 +76,27 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { email,password } = req.body;
+        console.log(email, password);
+        
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).select("+password");
         if (!user) {
+            console.log("User not found");
             return res.status(400).json({ message: "Invalid credentials" });
         }
-        const comparePassowrd = user.comparePassword(password);
+        const comparePassowrd = await user.comparePassword(password);
+        console.log(comparePassowrd);
+        
         if (!comparePassowrd) {
+            console.log("Password is different");
+            
             return res.status(400).json({ message: "Invalid credentials" });
         }
         const { accessToken,refreshToken } = generateTokens(user._id);
         await storeRefreshToken(user._id, refreshToken);
         setCookies(res, accessToken, refreshToken)
 
-        return res.status(200).json({ message: "Logged in successfully" });
+        return res.status(200).json({ message: "Logged in successfully",user });
 
     } catch (error) {
         return res.status(500).json({
