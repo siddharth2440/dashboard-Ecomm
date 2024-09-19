@@ -1,8 +1,9 @@
 import { BarChart, PlusCircle, ShoppingBasket } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CreateProduct from '../components/CreateProduct.jsx';
 import ProductsList from '../components/ProductsList.jsx';
 import AnalyticsTab from '../components/AnalyticsTab.jsx';
+import { useProductStore } from '../stores/useProductStore.js';
 
 const Adminpage = () => {
   const tabs = [
@@ -11,7 +12,16 @@ const Adminpage = () => {
     {id:"analytics",label:"Analytics",icon:BarChart}
   ]
 
+  const getAllProducts = useProductStore((state)=>state.getAllProducts);
+  const createProduct = useProductStore((state)=>state.createProduct);
+  const featuredProduct = useProductStore((state)=>state.featuredProduct);
+
   const [activeTab,setActiveTab] = useState("create");
+
+  useEffect(()=>{
+    getAllProducts();
+  },[createProduct,featuredProduct]);
+
   return (
     <div className='m-auto w-screen flex flex-col items-center justify-center overflow-x-hidden px-4 py-3'>
       <h1 className='text-green-400 font-[600] text-[2.2rem]'>Admin Dashboard</h1>

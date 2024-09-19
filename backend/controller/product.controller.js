@@ -142,15 +142,21 @@ export const getProductsByategory = async (req,res) => {
 
 export const toggleFeaturedProduct = async (req,res) => {
     const {id} = req.params;
+    console.log(id);
+    
     try {
-        await Product.findByIdAndUpdate(id<{
-            $set:{isFeatured:!isFeatured}
-        })
+        // await Product.findByIdAndUpdate(id,{
+        //     $set:{isFeatured:!isFeatured}
+        // })
 
-        const updatedProduct = await Product.findById(id).lean();
+        const product = await Product.findById(id);
+        product.isFeatured =!product.isFeatured;
+        const updatedProduct = await product.save();
         await featuredProductCache();
-        return res.status(200).json({message: `Product with id ${id} has been updated`});
+        return res.status(200).json({message: `Product with id ${id} has been updated`,updatedProduct});
     } catch (error) {
+        console.log(error);
+        
         return res.status(500).json({
             message: "Server error"
         })
