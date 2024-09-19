@@ -136,10 +136,15 @@ export const getRecommendedProduct = async (req,res) => {
 export const getProductsByategory = async (req,res) => {
     const {category} = req.params;
     try {
-        const products = await Product.find({category}).lean();
-        if(!products.length){
-            return res.status(404).json({message:"No products found in this category"});
-        }
+        const products = await Product.find({category});
+        console.log(products);
+        
+        // if(products.length == 0){
+        //     console.log("Yaha aaya");
+            
+        //     return res.status(404).json({message:"No products found in this category"});
+        // }
+        console.log("Yahan aaya kya");
         return res.status(200).json({products});        
     } catch (error) {
         return res.status(500).json({message:"Error", error});

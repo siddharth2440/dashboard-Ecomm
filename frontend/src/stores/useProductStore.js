@@ -14,7 +14,7 @@ export const useProductStore = create( persist(
 
             try {
                 const res = await axiosInstance.post('/product',productdata);
-                console.log(res.data);
+                // console.log(res.data);
                 
                 set( (prev) => ({
                     products: [...prev.products, res.data.product],
@@ -54,6 +54,7 @@ export const useProductStore = create( persist(
 
                 toast.success("Product Featured updated successfully");
             } catch (error) {
+                set({loading: false})
                 console.log(error.message);
                 toast.error("Error in updating product featured status");
             }
@@ -71,10 +72,21 @@ export const useProductStore = create( persist(
                     return toast.success("Product deleted Successfully");
 
             } catch (error) {
+                set({loading: false});
                 console.log(error.message);
                 return toast.error("Error in deleting the Product"+error.message);
                 
             }
+        },
+        fetchProductsByCategory: async (category) => {
+            // console.log("category "+category);
+            
+            set({loading: true});
+            const res = await axiosInstance.get(`/product/category/${category}`)
+            set({
+                loading: false,
+                products: res.data.products
+            });            
         }
     }),
     {

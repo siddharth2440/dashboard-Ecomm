@@ -10,7 +10,7 @@ const CreateProduct = () => {
     })
 
     const loading = useProductStore((state)=>state.loading)
-
+    
     const createProduct = useProductStore((state)=>state.createProduct);
     const changeProductHandler = (e) => {
         const {value,name} = e.target;

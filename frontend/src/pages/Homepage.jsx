@@ -8,13 +8,13 @@ const Homepage = () => {
   // console.log(user);
 
   const categories = [
-    {href:"/jeans",name:"Jeans",imageUrl:"/jeans.jpg"},
-    {href:"/bags",name:"Jeans",imageUrl:"/bags.jpg"},
-    {href:"/glasses",name:"Jeans",imageUrl:"/glasses.png"},
-    {href:"/jackets",name:"Jeans",imageUrl:"/jackets.jpg"},
-    {href:"/shoes",name:"Jeans",imageUrl:"/shoes.jpg"},
-    {href:"/suits",name:"Jeans",imageUrl:"/suits.jpg"},
-    {href:"/tshirts",name:"Jeans",imageUrl:"/tshirts.jpg"},
+    {href:"/jeans",name:"jeans",imageUrl:"/jeans.jpg"},
+    {href:"/bags",name:"bags",imageUrl:"/bags.jpg"},
+    {href:"/glasses",name:"glasses",imageUrl:"/glasses.png"},
+    {href:"/jackets",name:"jackets",imageUrl:"/jackets.jpg"},
+    {href:"/shoes",name:"shoes",imageUrl:"/shoes.jpg"},
+    {href:"/suits",name:"suits",imageUrl:"/suits.jpg"},
+    {href:"/t-shirts",name:"tshirts",imageUrl:"/tshirts.jpg"},
     // {href:"/jeans",name:"Jeans",imageUrl:"/jeans.jpg"},
   ]
   

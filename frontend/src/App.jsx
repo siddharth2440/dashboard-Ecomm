@@ -4,6 +4,7 @@ import Homepage from './pages/Homepage.jsx'
 import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
 import Navbar from './components/Navbar.jsx'
+import CategoryPage from './pages/Categorypage.jsx'
 import { useUserStore } from './stores/useUserStore.js'
 import Adminpage from './pages/Adminpage.jsx'
 
@@ -29,6 +30,7 @@ function App() {
             <Route path='/login' element={ !user ? <Login/> : <Navigate to={"/"} /> } ></Route>
             <Route path='/signup' element={ !user ? <Signup/> : <Navigate to={"/"} /> } ></Route>
             <Route path='/dashboard' element={ (user && user.role) == "admin" ? <Adminpage/> : <Navigate to={"/login"}/> }></Route>
+            <Route path='/category/:category' element={<CategoryPage/>}></Route>
           </Routes>
       </div>
     </div>
