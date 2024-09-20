@@ -1,12 +1,13 @@
 import { ShoppingCart } from 'lucide-react'
 import React from 'react'
 import toast from 'react-hot-toast'
+import { useCartstore } from '../stores/useCartstore.js'
 
 const Productpage = ({product}) => {
-    console.log(product);
-    
-    const handleCart = () => {
+  const addToCart = useCartstore((state) => state.addToCart )
+    const handleCart = async () => {
         toast.success("Added to cart")
+        await addToCart(product);
     }
   return (
     <div className='px-4 py-6 border border-gray-300 flex flex-col items-start justify-start gap-2 rounded-lg'>

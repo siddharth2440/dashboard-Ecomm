@@ -68,7 +68,7 @@ export const useProductStore = create( persist(
                             products: state.products.filter((product) => product._id!== productId),
                             loading: false,
                         })
-                    } )
+                    } ) 
                     return toast.success("Product deleted Successfully");
 
             } catch (error) {

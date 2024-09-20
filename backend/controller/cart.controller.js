@@ -20,12 +20,18 @@ const addToCart = async (req,res) => {
     try {
         const {productId} = req.body;
         const user = req.user;
+        // console.log(user);
+        // console.log(req.body)
+        
 
         const existingItem = user.cartItems.find(item=>item.id === productId);
+        console.log("existingItem" + existingItem );
+        
         if(existingItem){
             existingItem.quantity+=1;
+        }else{
+            user.cartItems.push(productId);
         }
-        user.cartItems.push(productId);
         await user.save();
         return res.status(200).json({message: "Item added to cart successfully",catItems:user.cartItems});
     } catch (error) {

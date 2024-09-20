@@ -3,12 +3,14 @@ import { ShoppingCart,UserPlus,LogIn,LogOut,Lock } from "lucide-react"
 import { Link } from 'react-router-dom'
 import { useUserStore } from '../stores/useUserStore.js';
 import toast from 'react-hot-toast';
+import { useCartstore } from '../stores/useCartstore.js';
 
 const Navbar = () => {
     const user = useUserStore((state) => state.checkingAuth );
     const details = useUserStore((state) => state.user );
     const logout = useUserStore((state) => state.logout )    
     const admin = details?.role == "customer" ? false : true;
+    const cart = useCartstore((state) => state.cart )
 
     const logoutHandler = (e) => {
         e.preventDefault();
@@ -35,7 +37,7 @@ const Navbar = () => {
                 {/* 2 */}
                 {user && (<div className='flex items-center justify-between gap-1'>
                     <div className='relative'>
-                        <span className='absolute -top-3 -left-2 text-[0.8rem] bg-fuchsia-400 rounded-[50%] px-2 text-black font-[700]'>3</span>
+                        <span className='absolute -top-3 -left-2 text-[0.8rem] bg-fuchsia-400 rounded-[50%] px-2 text-black font-[700]'>{ cart.length ?? "3"}</span>
                         <ShoppingCart/>
                     </div>
                     <Link to={"/cart"}> Cart </Link>
