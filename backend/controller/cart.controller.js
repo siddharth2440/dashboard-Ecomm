@@ -18,6 +18,7 @@ const getCartProducts = async (req,res) => {
 
 const addToCart = async (req,res) => {
     try {
+        console.log(req.body)
         const {productId} = req.body;
         const user = req.user;
         // console.log(user);
@@ -40,9 +41,14 @@ const addToCart = async (req,res) => {
     }
 }
 
-const removeAllFromCart = async (req, res) => {
+const removeAllFromCart = async (req, res) => {   
     try {
+        console.log(req.body);
+        // console.log(req);
+        
         const {productId} = req.body;
+        // console.log(productId);
+        
         const user = req.user;
         if(!productId){
             user.cartItems = [];

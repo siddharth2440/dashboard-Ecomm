@@ -10,6 +10,8 @@ import cartRoute from "./routes/cart.route.js";
 import couponRoute from "./routes/coupons.route.js";
 import paymentRoute from "./routes/payment.route.js"
 import analyticsRoute from "./routes/analytics.route.js";
+import bodyParser from "body-parser";
+
 
 config();
 const app = express();

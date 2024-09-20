@@ -7,10 +7,18 @@ import Navbar from './components/Navbar.jsx'
 import CategoryPage from './pages/Categorypage.jsx'
 import { useUserStore } from './stores/useUserStore.js'
 import Adminpage from './pages/Adminpage.jsx'
+import CartPage from './pages/CartPage.jsx'
+import { useEffect } from 'react'
+import { useCartstore } from './stores/useCartstore.js'
 
 function App() {
 
   const user = useUserStore((state) => state.user )
+  const getCartItems = useCartstore((state) => state.getCartItems );
+
+  useEffect(()=>{
+    getCartItems();
+  },[]);
 
   return (
 
@@ -31,6 +39,7 @@ function App() {
             <Route path='/signup' element={ !user ? <Signup/> : <Navigate to={"/"} /> } ></Route>
             <Route path='/dashboard' element={ (user && user.role) == "admin" ? <Adminpage/> : <Navigate to={"/login"}/> }></Route>
             <Route path='/category/:category' element={<CategoryPage/>}></Route>
+            <Route path='/cart' element={ (user) && <CartPage/>}></Route>
           </Routes>
       </div>
     </div>

@@ -37,7 +37,7 @@ const Navbar = () => {
                 {/* 2 */}
                 {user && (<div className='flex items-center justify-between gap-1'>
                     <div className='relative'>
-                        <span className='absolute -top-3 -left-2 text-[0.8rem] bg-fuchsia-400 rounded-[50%] px-2 text-black font-[700]'>{ cart.length ?? "3"}</span>
+                        { cart.length > 0 && (<span className='absolute -top-3 -left-2 text-[0.8rem] bg-fuchsia-400 rounded-[50%] px-2 text-black font-[700]'>{ cart.length ?? "0"}</span>)}
                         <ShoppingCart/>
                     </div>
                     <Link to={"/cart"}> Cart </Link>
