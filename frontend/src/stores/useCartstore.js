@@ -59,6 +59,19 @@ export const useCartstore = create( persist(
                 }
             },
 
+            updateQuantity: async (productId,quantity) => {
+                console.log(productId , quantity);
+                
+                if(quantity === 0){
+                    get().removeFromCart(productId);
+                }
+                await axiosInstance.put(`/cart/${productId}` , { quantity } );
+                
+                set((prevState) => ({
+                    cart: prevState.cart.map((item) => (item._id === productId ? { ...item, quantity } : item)),
+                }));
+            },
+
             calculateTotal: async () => {
                 const {cart,coupon} = get();
                 const subTotal = cart.reduce((sum,item) => {
@@ -73,7 +86,6 @@ export const useCartstore = create( persist(
                 }
 
                 set({subTotal, total});
-
             }
         })
     },

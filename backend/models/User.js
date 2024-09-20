@@ -17,8 +17,8 @@ const userSchema = new Schema({
         required: [true,'Password is required'],
         trim:true,
         minlength:[6,"Password must be at least 6 characters long"],
-        maxlength:[20,"Password must be at most 10 characters long"],
-        select:false
+        // maxlength:[20,"Password must be at most 20 characters long"],
+        // select:false
     },
     cartItems:[
         {
@@ -55,7 +55,7 @@ userSchema.pre('save',async function(next){
 userSchema.methods = {
     comparePassword : async function(passsword){
         try {
-            return await bcrypt.compare(passsword,this.password)
+            return bcrypt.compare(passsword,this.password)
         } catch (error) {
             console.log(passsword,"Error Message from comparePassword"+error.message);
         }

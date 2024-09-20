@@ -84,7 +84,7 @@ const login = async (req, res) => {
             console.log("User not found");
             return res.status(400).json({ message: "Invalid credentials" });
         }
-        const comparePassowrd = await user.comparePassword(password);
+        const comparePassowrd = user.comparePassword(password);
         console.log(comparePassowrd);
         
         if (!comparePassowrd) {
