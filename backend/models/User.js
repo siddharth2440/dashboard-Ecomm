@@ -55,7 +55,7 @@ userSchema.pre('save',async function(next){
 userSchema.methods = {
     comparePassword : async function(passsword){
         try {
-            return bcrypt.compare(passsword,this.password)
+            return await bcrypt.compare(passsword,this.password)
         } catch (error) {
             console.log(passsword,"Error Message from comparePassword"+error.message);
         }

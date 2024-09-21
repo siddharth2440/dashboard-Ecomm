@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axiosInstance from "../helpers/axiosInstance.js";
 import toast from "react-hot-toast";
-import { data } from "autoprefixer";
 
 export const useCartstore = create( persist(
     (set,get) => {
@@ -11,6 +10,7 @@ export const useCartstore = create( persist(
             coupon:null,
             total:0,
             subTotal:0,
+            isCouponApplied:false,
             
             getCartItems : async () => {
                 const res = await axiosInstance.get("/cart");
@@ -22,7 +22,7 @@ export const useCartstore = create( persist(
 
             addToCart: async (product) => {
                 try {
-                    // console.log(product._id);
+                    console.log(product);
                     
                     const res = await axiosInstance.post("/cart",{productId:product._id});
                     if(!res){
@@ -70,6 +70,8 @@ export const useCartstore = create( persist(
                 set((prevState) => ({
                     cart: prevState.cart.map((item) => (item._id === productId ? { ...item, quantity } : item)),
                 }));
+
+                get().calculateTotal();
             },
 
             calculateTotal: async () => {

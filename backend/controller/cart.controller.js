@@ -20,13 +20,10 @@ const addToCart = async (req,res) => {
     try {
         console.log(req.body)
         const {productId} = req.body;
-        const user = req.user;
-        // console.log(user);
-        // console.log(req.body)
-        
+        const user = req.user;        
 
         const existingItem = user.cartItems.find(item=>item.id === productId);
-        console.log("existingItem" + existingItem );
+        // console.log("existingItem" + existingItem );
         
         if(existingItem){
             existingItem.quantity+=1;
