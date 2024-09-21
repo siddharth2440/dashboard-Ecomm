@@ -54,7 +54,11 @@ export const useUserStore = create( persist( (set,get) => ({
             return toast.error(error.message);
         }
     },
-    //checkingAuth,
+    refreshToken: async () => {
+        // handle request for refresh token to our backend
+        const res = await axiosInstance.post("/auth/refresh-token")
+        return res.data;
+    }
     
 }),{
     name: "userStore",
@@ -64,3 +68,35 @@ export const useUserStore = create( persist( (set,get) => ({
     //     ),
 } 
 ));
+
+
+
+// implement the axios interceptors for refreshing access token
+let refreshPromise = null;
+
+axiosInstance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+        if(error.response?.status == 401 && !originalRequest._retry){
+            originalRequest._retry = true;
+            try {
+                if(refreshPromise){
+                    await refreshPromise;
+                    return axiosInstance(originalRequest)
+                }
+
+                // start a refresh process
+                refreshPromise = useUserStore.getState().refreshToken();
+                await refreshPromise
+                refreshPromise = null;
+
+                return axiosInstance(originalRequest);
+            } catch (refreshError) {
+                useUserStore.getState().logout();
+                return Promise.reject(refreshError);
+            }
+        }
+        return Promise.reject(error)
+    }
+)

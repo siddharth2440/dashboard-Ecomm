@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 const generateTokens = (userId) => {
     const accessToken = jwt.sign({id:userId},process.env.ACCESS_TOKEN_SECRET,{
-        expiresIn:"15m"
+        expiresIn:"1m"
     })
     const refreshToken = jwt.sign({id:userId},process.env.REFRESH_TOKEN_SECRET,{
         expiresIn: "7d"
@@ -27,7 +27,7 @@ const setCookies = ( res,accessToken,refreshToken ) => {
             httpOnly: true, 
             secure: process.env.NODE_ENV == "production", 
             sameSite: "strict",
-            maxAge: 15*60*1000
+            maxAge: 1*60*1000
         }
     );
     
@@ -143,7 +143,7 @@ const resfreshToken = async (req,res) => {
     }
 
     const accessToken = jwt.sign({id:decodedToken.id},process.env.ACCESS_TOKEN_SECRET,{
-        expiresIn:"15m"
+        expiresIn:"1m"
     })
 
     // console.log("New Token :- "+accessToken);    
@@ -152,7 +152,7 @@ const resfreshToken = async (req,res) => {
         httpOnly: true,
         secure: process.env.NODE_ENV == "production",
         sameSite: "strict",
-        maxAge: 15*60*1000
+        maxAge: 1*60*1000
     })
 
     return res.json({message:"Refreshed Token"});
